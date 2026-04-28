@@ -1,21 +1,24 @@
-#This is my jenkins file.
-node {
+// This is my jenkins file
 
-    tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-    env.PATH = "${tool 'NodeJS'}/bin:${env.PATH}"
+pipeline {
+    agent any
 
-    stage('Build') {
-        echo 'Building project...'
-        sh 'npm install'
-        sh 'npm run build'
+    tools {
+        nodejs 'NodeJS'
     }
 
-    stage('Test') {
-        echo 'Running tests...'
-        sh 'npm test -- --watchAll=false --passWithNoTests'
-    }
+    stages {
+        stage('Build') {
+            steps {
+                bat 'npm install'
+                bat 'npm run build'
+            }
+        }
 
-    echo 'Pipeline executed successfully'
+        stage('Test') {
+            steps {
+                bat 'npm test -- --watchAll=false'
+            }
+        }
+    }
 }
-
-
