@@ -1,11 +1,5 @@
-// This is my jenkins file
-
 pipeline {
     agent any
-
-    tools {
-        nodejs 'NodeJS'
-    }
 
     stages {
         stage('Build') {
@@ -19,6 +13,15 @@ pipeline {
             steps {
                 bat 'npm test -- --watchAll=false'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline executed successfully'
+        }
+        failure {
+            echo 'Pipeline failed'
         }
     }
 }
